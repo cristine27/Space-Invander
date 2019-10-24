@@ -6,4 +6,21 @@
     tools:context=".View.Fragment_play"
     android:background="@drawable/backgroundplay">
 
+    <include layout="@layout/layout_score"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/iv_layar"/>
+
+    </RelativeLayout>
+
+
+
 </FrameLayout>

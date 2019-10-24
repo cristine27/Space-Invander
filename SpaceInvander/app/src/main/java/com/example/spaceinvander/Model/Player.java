@@ -33,7 +33,7 @@ public class Player {
         this.mContext = context;
 
         mSpeed = 1;
-        mbitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.logo);
+//        mbitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.logo);
         mbitmap = Bitmap.createScaledBitmap(mbitmap, mbitmap.getWidth() * 3/5, mbitmap.getHeight() * 3/5, false);
 
         batasMaxX = screenSizeX - mbitmap.getWidth();
