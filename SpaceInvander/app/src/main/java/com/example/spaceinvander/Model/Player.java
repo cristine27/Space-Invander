@@ -123,4 +123,8 @@ public class Player {
     public int getmY() {
         return mY;
     }
+
+    public void fire(){
+
+    }
 }
