@@ -67,8 +67,38 @@
             android:id="@+id/iv_life3"
             android:layout_toRightOf="@id/iv_life2"/>
 
+        <ImageView
+            android:id="@+id/pesawat"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="500dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/spaceship" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/meteor"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/meteor"
+            android:layout_marginTop="100dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_left"
+            android:background="@color/white"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="550dp"
+            android:id="@+id/btn_left"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_right"
+            android:background="@color/white"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="550dp"
+            android:id="@+id/btn_right"/>
     </RelativeLayout>
-
-
-
 </FrameLayout>

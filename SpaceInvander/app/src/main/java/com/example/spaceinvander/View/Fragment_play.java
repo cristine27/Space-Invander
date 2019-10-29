@@ -25,15 +25,9 @@ import com.example.spaceinvander.R;
  */
 public class Fragment_play extends Fragment implements View.OnClickListener, View.OnTouchListener{
 
-    protected TextView textScore;
-    protected TextView score;
-    protected ImageView life1;
-    protected ImageView life2;
-    protected ImageView life3;
-
-    protected ImageView iv_canvas;
-
-    protected Button pause;
+    protected TextView textScore,score;
+    protected ImageView life1,life2,life3,iv_canvas,pesawat,meteor;
+    protected Button pause,btn_left,btn_right;
 
     protected Canvas mCanvas;
     protected Bitmap bitmap;
@@ -58,20 +52,25 @@ public class Fragment_play extends Fragment implements View.OnClickListener, Vie
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.view = inflater.inflate(R.layout.fragment_play, container, false);
-//
-//        this.textScore = view.findViewById(R.id.tv_score);
-//        this.score = view.findViewById(R.id.tv_angka_score);
-//        this.life1 = view.findViewById(R.id.iv_life1);
-//        this.life2 = view.findViewById(R.id.iv_life2);
-//        this.life3 = view.findViewById(R.id.iv_life3);
-//        this.pause = view.findViewById(R.id.ib_pause);
-//        this.iv_canvas = view.findViewById(R.id.iv_layar);
-//
-//        this.pause.setOnClickListener(this);
-//        this.iv_canvas.setOnTouchListener(this);
-//
-//        this.gestureListener = new GestureListener();
-////        this.gestureDetector = new GestureDetector(gestureListener);
+//      find view by id
+        this.textScore = view.findViewById(R.id.tv_score);
+        this.score = view.findViewById(R.id.tv_angka_score);
+        this.life1 = view.findViewById(R.id.iv_life1);
+        this.life2 = view.findViewById(R.id.iv_life2);
+        this.life3 = view.findViewById(R.id.iv_life3);
+        this.pause = view.findViewById(R.id.iv_pause);
+        this.iv_canvas = view.findViewById(R.id.iv_layar);
+        this.btn_left = view.findViewById(R.id.btn_left);
+        this.btn_right = view.findViewById(R.id.btn_right);
+
+        this.pause.setOnClickListener(this);
+        this.btn_left.setOnClickListener(this);
+        this.btn_right.setOnClickListener(this);
+
+        this.iv_canvas.setOnTouchListener(this);
+
+        this.gestureListener = new GestureListener();
+        this.gestureDetector = new GestureDetector(gestureListener);
         return view;
     }
 
