@@ -9,7 +9,7 @@ import android.os.Handler;
 import com.example.spaceinvander.R;
 
 public class Welcomescreen extends AppCompatActivity {
-    protected int waktu_delay = 3000;//3 detik
+    protected int waktu_delay = 1000;//3 detik
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
