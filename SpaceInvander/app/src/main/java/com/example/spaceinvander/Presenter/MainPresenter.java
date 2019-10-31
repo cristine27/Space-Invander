@@ -11,7 +11,7 @@ public class MainPresenter {
 
     public MainPresenter(MainActivity ma){
         this.ai = ma;
-        this.gi = gi;
+        this.gi = ma;
     }
 
     public void changePage(int i){

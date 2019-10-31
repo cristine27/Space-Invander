@@ -89,6 +89,8 @@ public class Fragment_play extends Fragment{
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == event.ACTION_DOWN){
                     player.moveLeft();
+                    System.out.println("kiri");
+                    System.out.println(player.getmX());
                     resetCanvas();
                 }
                 return true;
@@ -99,6 +101,8 @@ public class Fragment_play extends Fragment{
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction()==event.ACTION_DOWN){
                     player.moveRight();
+                    System.out.println("kanan");
+                    System.out.println(player.getmX());
                     resetCanvas();
                 }
                 return true;
@@ -118,7 +122,8 @@ public class Fragment_play extends Fragment{
         Bitmap player = BitmapFactory.decodeResource(getResources(),R.drawable.spaceship);
         this.bitmap = this.bitmap.copy(Bitmap.Config.ARGB_8888,true);
         this.mCanvas = new Canvas(this.bitmap);
-        this.player = new Player(this.bitmap.getWidth()/2 - player.getWidth()/2,this.bitmap.getHeight()/2 + player.getHeight()/2,player);
+
+        this.player = new Player(this.bitmapW/2 - player.getWidth()/2,this.bitmapH/2 + player.getHeight(),player,this.bitmapW);
         this.iv_canvas.setImageBitmap(this.bitmap);
         this.resetCanvas();
     }

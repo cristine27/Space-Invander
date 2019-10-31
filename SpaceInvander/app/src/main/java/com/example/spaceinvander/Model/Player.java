@@ -19,13 +19,12 @@ public class Player {
     private Rect mCekCollision;
     private ArrayList<Laser> mlaser;
     private int mScreenSizeX, mScreenSizeY;
-
-    public Player(float x, float y,Bitmap spaceship){
+    public Player(float x, float y,Bitmap spaceship,float batas){
         this.mbitmap = spaceship;
         mX = x;
         mY = y;
         mlaser = new ArrayList<>();
-
+        this.batas = batas;
         mCekCollision = new Rect((int)mX, (int)mY, (int)mX + mbitmap.getWidth(), (int)mY + mbitmap.getHeight());
     }
 
@@ -67,7 +66,7 @@ public class Player {
     }
 
     public void moveRight(){
-        if(this.mX+30<=batas-this.mbitmap.getWidth()/1.5f){
+        if(this.mX+30<=batas-this.mbitmap.getWidth()){
             this.mX+=30;
         }
     }
