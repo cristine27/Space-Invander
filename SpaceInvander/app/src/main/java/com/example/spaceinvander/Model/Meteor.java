@@ -55,7 +55,7 @@ public class Meteor {
 
     public int randomAngka(){
         Random rand = new Random();
-        return rand.nextInt(50);
+        return rand.nextInt(300);
     }
 
     public void setmX() {
