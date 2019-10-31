@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
         MainPresenter presenter = new MainPresenter(this);
         this.frame_container = findViewById(R.id.frame_container);
         this.home_fragment = Home_fragment.createHome(presenter);
-        this.fragment_play = Fragment_play.createGame(presenter);
+        this.fragment_play = Fragment_play.createGame(presenter,this);
 
         this.fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();

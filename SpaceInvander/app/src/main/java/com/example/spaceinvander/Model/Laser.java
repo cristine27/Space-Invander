@@ -9,75 +9,32 @@ import com.example.spaceinvander.R;
 
 public class Laser {
     private Bitmap mbitmap;
-    private int mX;
-    private int mY;
+    private float mX;
+    private float mY;
     private Rect mCekCollision;
-    private int mScreenSizeX;
-    private int mScreenSizeY;
-    private boolean isEnemy;
 
-    public Laser(Context context, int mScreenSizeX, int mScreenSizeY, int posisiX, int posisiY, Bitmap spaceShip, boolean isEnemy){
-        this.mScreenSizeX = mScreenSizeX;
-        this.mScreenSizeY = mScreenSizeY;
-        this.isEnemy = isEnemy;
-
-        mbitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.laser);
-        mbitmap = Bitmap.createScaledBitmap(mbitmap, mbitmap.getWidth() * 3/5, mbitmap.getHeight() * 3/5,false);
-
-        mX = posisiX + spaceShip.getWidth()/2 - mbitmap.getWidth()/2;
-        if(isEnemy){
-            mY = posisiY + mbitmap.getHeight() + 10;
-        }
-        else{
-            mY = posisiY - mbitmap.getHeight() - 10;
-        }
-
-        mCekCollision = new Rect(mX, mY, mX + mbitmap.getWidth(), mY + mbitmap.getHeight());
+    public Laser(float posisiX, float posisiY){
+        this.mX = posisiX;
+        this.mY = posisiY;
     }
 
-    public void update(){
-        if(isEnemy){
-            mY += mbitmap.getHeight() + 10;
-            mCekCollision.left = mX;
-            mCekCollision.right = mX + mbitmap.getWidth();
-            mCekCollision.top = mY;
-            mCekCollision.right = mY + mbitmap.getHeight();
-        }
-        else{
-            mY -= mbitmap.getHeight() - 10;
-            mCekCollision.left = mX;
-            mCekCollision.right = mX + mbitmap.getWidth();
-            mCekCollision.top = mY;
-            mCekCollision.right = mY + mbitmap.getHeight();
-        }
+    public float getmY() {
+        return mY;
     }
 
-    public boolean isEnemy(){
-        return isEnemy;
+    public float getmX() {
+        return mX;
     }
 
-    public Rect getmCekCollision() {
-        return mCekCollision;
+    public void setmY(float y) {
+        this.mY = y;
+    }
+
+    public void setmX(float x) {
+        this.mX = x;
     }
 
     public Bitmap getMbitmap() {
         return mbitmap;
-    }
-
-    public int getmY() {
-        return mY;
-    }
-
-    public int getmX() {
-        return mX;
-    }
-
-    public void destroyEnemy(){
-        if(isEnemy){
-            mY = mScreenSizeY;
-        }
-        else{
-            mY = 0 - mbitmap.getHeight();
-        }
     }
 }
