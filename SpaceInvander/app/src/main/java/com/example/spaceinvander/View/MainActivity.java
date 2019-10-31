@@ -7,9 +7,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import com.example.spaceinvander.Presenter.MainPresenter;
 import com.example.spaceinvander.R;
 
-public class MainActivity extends AppCompatActivity implements ActivityInterface{
+public class MainActivity extends AppCompatActivity implements ActivityInterface,GameInterface{
     protected Home_fragment home_fragment;
     protected Fragment_play fragment_play;
     protected FragmentManager fragmentManager;
@@ -19,10 +20,10 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        MainPresenter presenter = new MainPresenter(this);
         this.frame_container = findViewById(R.id.frame_container);
-        this.home_fragment = Home_fragment.newInstance();
-        this.fragment_play = Fragment_play.newInstance();
+        this.home_fragment = Home_fragment.createHome(presenter);
+        this.fragment_play = Fragment_play.createGame(presenter);
 
         this.fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
@@ -57,5 +58,15 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
             }
         }
         ft.commit();
+    }
+
+    @Override
+    public void setWidth(int w) {
+        this.fragment_play.setBitmapW(w);
+    }
+
+    @Override
+    public void setHeight(int h) {
+        this.fragment_play.setBitmapH(h);
     }
 }

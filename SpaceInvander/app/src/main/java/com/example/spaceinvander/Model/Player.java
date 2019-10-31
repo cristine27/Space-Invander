@@ -12,61 +12,29 @@ import java.util.ArrayList;
 public class Player {
     private Bitmap mbitmap;
 
-    private int mX;
-    private int mY;
-    private int mSpeed;
-    private int batasMaxX;
-    private int batasMinX;
-    private int batasMaxY;
-    private int batasMinY;
-    private int mMargin = 16;
-    private boolean isKiri, isKanan;
-    private float kecepatanPindah;
+    private float mX;
+    private float mY;
+    private float batas;
+
     private Rect mCekCollision;
     private ArrayList<Laser> mlaser;
-    private Context mContext;
     private int mScreenSizeX, mScreenSizeY;
 
-    public Player(Context context, int screenSizeX, int screenSizeY){
-        this.mScreenSizeX = screenSizeX;
-        this.mScreenSizeY = screenSizeY;
-        this.mContext = context;
-
-        mSpeed = 1;
-        mbitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.spaceship);
-        mbitmap = Bitmap.createScaledBitmap(mbitmap, mbitmap.getWidth() * 3/5, mbitmap.getHeight() * 3/5, false);
-
-        batasMaxX = screenSizeX - mbitmap.getWidth();
-        batasMaxY = screenSizeY - mbitmap.getHeight();
-        batasMinX = 0;
-        batasMinY = 0;
-
-        mX = screenSizeX/2 - mbitmap.getWidth()/2;
-        mY = screenSizeY/2 - mbitmap.getHeight()/mMargin;
-
+    public Player(float x, float y,Bitmap spaceship){
+        this.mbitmap = spaceship;
+        mX = x;
+        mY = y;
         mlaser = new ArrayList<>();
 
-        mCekCollision = new Rect(mX, mY, mX + mbitmap.getWidth(), mY + mbitmap.getHeight());
+        mCekCollision = new Rect((int)mX, (int)mY, (int)mX + mbitmap.getWidth(), (int)mY + mbitmap.getHeight());
     }
 
     public void update(){
-        if(isKiri){
-            mX -= 10 * kecepatanPindah;
-            if(mX<batasMinX){
-                mX = batasMinX;
-            }
-        }
-        else if(isKanan){
-            mX += 10 * kecepatanPindah;
-            if(mX>batasMaxX){
-                mX = batasMaxX;
-            }
-        }
 
-        mCekCollision.left = mX;
-        mCekCollision.top = mY;
-        mCekCollision.right = mX + mbitmap.getWidth();
-        mCekCollision.bottom = mY + mbitmap.getHeight();
+        mCekCollision.left = (int)mX;
+        mCekCollision.top = (int)mY;
+        mCekCollision.right = (int)mX + mbitmap.getWidth();
+        mCekCollision.bottom = (int)mY + mbitmap.getHeight();
 
         for(Laser laser : mlaser){
             laser.update();
@@ -98,29 +66,23 @@ public class Player {
         return mbitmap;
     }
 
-    public void moveRight(float speed){
-        isKiri = false;
-        isKanan = true;
-        kecepatanPindah = Math.abs(speed);
+    public void moveRight(){
+        if(this.mX+30<=batas-this.mbitmap.getWidth()/1.5f){
+            this.mX+=30;
+        }
     }
 
-    public void moveLeft(float speed){
-        isKiri = true;
-        isKanan = false;
-        kecepatanPindah = Math.abs(speed);
+    public void moveLeft(){
+        if(this.mX-30>=0){
+            this.mX-=30;
+        }
     }
 
-    public void stay(){
-        isKiri = false;
-        isKanan = false;
-        kecepatanPindah = 0;
-    }
-
-    public int getmX() {
+    public float getmX() {
         return mX;
     }
 
-    public int getmY() {
+    public float getmY() {
         return mY;
     }
 
