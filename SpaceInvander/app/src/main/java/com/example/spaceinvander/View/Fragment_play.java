@@ -57,6 +57,7 @@ public class Fragment_play extends Fragment{
     private Paint paint;
     private MainPresenter mp;
     protected MainActivity mainActivity;
+    protected ThreadEnemy threadEnemy;
     protected ThreadLaser threadLaser;
     protected ThreadLaserMove threadLaserMove;
     protected ThreadHandler threadHandler;
@@ -141,7 +142,7 @@ public class Fragment_play extends Fragment{
         this.mCanvas = new Canvas(this.bitmap);
 
         this.player = new Player(this.bitmapW/2 - player.getWidth()/2,this.bitmapH/2 + player.getHeight()*2,player,this.bitmapW);
-        this.musuh = new Meteor(this.bitmapW/2-musuh.getWidth()/2,musuh.getHeight(),musuh,this.bitmapH);
+        this.musuh = new Meteor(this.bitmapW/2-musuh.getWidth()/2,musuh.getHeight(),musuh,this.bitmapW,this.bitmapH);
         this.iv_canvas.setImageBitmap(this.bitmap);
 
         this.threadLaser = new ThreadLaser(this.threadHandler, this.player);
@@ -149,6 +150,9 @@ public class Fragment_play extends Fragment{
 
         this.threadLaserMove = new ThreadLaserMove(this.threadHandler, lasers);
         this.threadLaserMove.start();
+
+        this.threadEnemy = new ThreadEnemy(this.musuh);
+        this.threadEnemy.start();
 
         this.resetCanvas();
     }
@@ -175,10 +179,11 @@ public class Fragment_play extends Fragment{
     }
 
     public void setLaser(Laser laser) {
+        int bitMapW = this.bitmapW;
         this.lasers.add(laser);
         resetCanvas();
         for (int i = 0; i < this.lasers.size(); i++) {
-            this.drawLaser((int) this.lasers.get(i).getmX(), (int) this.lasers.get(i).getmY());
+            this.drawLaser((int) (bitMapW-this.lasers.get(i).getmX()), (int) this.lasers.get(i).getmY());
         }
     }
 
