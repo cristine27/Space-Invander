@@ -67,9 +67,21 @@
             android:id="@+id/iv_life3"
             android:layout_toRightOf="@id/iv_life2"/>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/pesawat"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="500dp"
+            android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/meteor"
+            android:layout_marginTop="100dp"/>
+
+        <ImageView
             android:background="@color/white"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="550dp"

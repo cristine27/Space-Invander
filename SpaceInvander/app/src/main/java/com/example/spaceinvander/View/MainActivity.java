@@ -9,14 +9,13 @@ import android.os.Bundle;
 import android.view.Display;
 import android.widget.FrameLayout;
 
-<<<<<<< Updated upstream
-=======
+
 import com.example.spaceinvander.Model.Laser;
 import com.example.spaceinvander.Presenter.MainPresenter;
->>>>>>> Stashed changes
+
 import com.example.spaceinvander.R;
 
-public class MainActivity extends AppCompatActivity implements ActivityInterface{
+public class MainActivity extends AppCompatActivity implements ActivityInterface,GameInterface{
     protected Home_fragment home_fragment;
     protected Fragment_play fragment_play;
     protected FragmentManager fragmentManager;
@@ -29,19 +28,17 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         display =  getWindowManager().getDefaultDisplay();
         point = new Point();
         display.getSize(point);
 
-        this.frame_container = findViewById(R.id.frame_container);
-<<<<<<< Updated upstream
-        this.home_fragment = Home_fragment.newInstance();
-        this.fragment_play = Fragment_play.newInstance(point.x, point.y);
-        this.fragment_play = Fragment_play.newInstance(this.frame_container.getWidth(), this.frame_container.getHeight());
-=======
-        this.home_fragment = Home_fragment.createHome(presenter);
+       
         this.fragment_play = Fragment_play.createGame(presenter, this);
->>>>>>> Stashed changes
+
+        MainPresenter presenter = new MainPresenter(this);
+        this.frame_container = findViewById(R.id.frame_container);
+        this.home_fragment = Home_fragment.createHome(presenter);
 
         this.fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
@@ -79,5 +76,15 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
             }
         }
         ft.commit();
+    }
+
+    @Override
+    public void setWidth(int w) {
+        this.fragment_play.setBitmapW(w);
+    }
+
+    @Override
+    public void setHeight(int h) {
+        this.fragment_play.setBitmapH(h);
     }
 }
