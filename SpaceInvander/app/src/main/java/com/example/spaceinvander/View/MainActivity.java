@@ -9,6 +9,11 @@ import android.os.Bundle;
 import android.view.Display;
 import android.widget.FrameLayout;
 
+<<<<<<< Updated upstream
+=======
+import com.example.spaceinvander.Model.Laser;
+import com.example.spaceinvander.Presenter.MainPresenter;
+>>>>>>> Stashed changes
 import com.example.spaceinvander.R;
 
 public class MainActivity extends AppCompatActivity implements ActivityInterface{
@@ -29,9 +34,14 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
         display.getSize(point);
 
         this.frame_container = findViewById(R.id.frame_container);
+<<<<<<< Updated upstream
         this.home_fragment = Home_fragment.newInstance();
         this.fragment_play = Fragment_play.newInstance(point.x, point.y);
         this.fragment_play = Fragment_play.newInstance(this.frame_container.getWidth(), this.frame_container.getHeight());
+=======
+        this.home_fragment = Home_fragment.createHome(presenter);
+        this.fragment_play = Fragment_play.createGame(presenter, this);
+>>>>>>> Stashed changes
 
         this.fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();

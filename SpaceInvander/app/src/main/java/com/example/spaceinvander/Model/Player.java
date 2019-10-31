@@ -24,6 +24,7 @@ public class Player {
     private float kecepatanPindah;
     private Rect mCekCollision;
     private ArrayList<Laser> mlaser;
+<<<<<<< Updated upstream
     private Context mContext;
     private int mScreenSizeX, mScreenSizeY;
 
@@ -44,12 +45,20 @@ public class Player {
         mX = screenSizeX/2 - mbitmap.getWidth()/2;
         mY = screenSizeY/2 - mbitmap.getHeight()/mMargin;
 
+=======
+
+    public Player(float x, float y,Bitmap spaceship,float batas){
+        this.mbitmap = spaceship;
+        mX = x;
+        mY = y;
+>>>>>>> Stashed changes
         mlaser = new ArrayList<>();
 
         mCekCollision = new Rect(mX, mY, mX + mbitmap.getWidth(), mY + mbitmap.getHeight());
     }
 
     public void update(){
+<<<<<<< Updated upstream
         if(isKiri){
             mX -= 10 * kecepatanPindah;
             if(mX<batasMinX){
@@ -67,9 +76,15 @@ public class Player {
         mCekCollision.top = mY;
         mCekCollision.right = mX + mbitmap.getWidth();
         mCekCollision.bottom = mY + mbitmap.getHeight();
+=======
+        mCekCollision.left = (int)mX;
+        mCekCollision.top = (int)mY;
+        mCekCollision.right = (int)mX + mbitmap.getWidth();
+        mCekCollision.bottom = (int)mY + mbitmap.getHeight();
+>>>>>>> Stashed changes
 
         for(Laser laser : mlaser){
-            laser.update();
+
         }
 
         boolean deleting = true;
