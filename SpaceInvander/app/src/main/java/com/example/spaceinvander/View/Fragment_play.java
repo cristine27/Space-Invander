@@ -130,6 +130,8 @@ public class Fragment_play extends Fragment{
     private void initiateCanvas(){
         System.out.println(this.bitmapW+" "+this.bitmapH);
 
+        this.threadHandler = new ThreadHandler(this.mainActivity);
+
         this.bitmap = Bitmap.createBitmap(this.bitmapW,this.bitmapH,Bitmap.Config.ARGB_8888);
         this.bitmapE = Bitmap.createBitmap(this.bitmapW,this.bitmapH,Bitmap.Config.ARGB_8888);
         Bitmap player = BitmapFactory.decodeResource(getResources(),R.drawable.spaceship);
