@@ -67,8 +67,20 @@
             android:id="@+id/iv_life3"
             android:layout_toRightOf="@id/iv_life2"/>
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="550dp"
+            android:id="@+id/btn_left"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="550dp"
+            android:id="@+id/btn_right"/>
     </RelativeLayout>
-
-
-
 </FrameLayout>

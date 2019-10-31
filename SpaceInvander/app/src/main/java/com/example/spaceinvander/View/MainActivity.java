@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
         this.frame_container = findViewById(R.id.frame_container);
         this.home_fragment = Home_fragment.newInstance();
         this.fragment_play = Fragment_play.newInstance(point.x, point.y);
+        this.fragment_play = Fragment_play.newInstance(this.frame_container.getWidth(), this.frame_container.getHeight());
 
         this.fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
