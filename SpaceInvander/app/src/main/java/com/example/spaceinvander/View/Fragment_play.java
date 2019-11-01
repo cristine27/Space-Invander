@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.spaceinvander.Model.Laser;
 import com.example.spaceinvander.Model.Meteor;
@@ -53,8 +54,10 @@ public class Fragment_play extends Fragment{
     private static int METOEOR_DESTROYED = 0;
     private volatile boolean isGameOver;
     private volatile boolean isHighScore;
+    private boolean isPause = false;
 
     private Paint paint;
+    protected Paint paintLaser;
     private MainPresenter mp;
     protected MainActivity mainActivity;
     protected ThreadEnemy threadEnemy;
@@ -120,6 +123,22 @@ public class Fragment_play extends Fragment{
                 return true;
             }
         });
+
+        this.pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!threadLaser.getPause()){
+//                    (Toast) ntr pake toast untuk nampilin lagi pause atau resume
+                    threadLaser.setPause(true);
+                    threadLaser.pause();
+                }
+                else{
+//                    (Toast)
+                    threadLaser.setPause(false);
+                    threadLaser.resume();
+                }
+            }
+        });
         return view;
     }
 
@@ -148,7 +167,7 @@ public class Fragment_play extends Fragment{
         this.threadLaser = new ThreadLaser(this.threadHandler, this.player);
         this.threadLaser.start();
 
-        this.threadLaserMove = new ThreadLaserMove(this.threadHandler, lasers);
+        this.threadLaserMove = new ThreadLaserMove(this.threadHandler, lasers,this.musuh);
         this.threadLaserMove.start();
 
         this.threadEnemy = new ThreadEnemy(this.musuh);
@@ -160,6 +179,7 @@ public class Fragment_play extends Fragment{
     public void resetCanvas(){
         this.bitmap.eraseColor(Color.TRANSPARENT);
         this.paint = new Paint();
+        this.paintLaser = new Paint();
         this.mCanvas.drawBitmap(player.getMbitmap(),player.getmX(),player.getmY(),paint);
         this.mCanvas.drawBitmap(musuh.getMbitmap(),musuh.getmX(),musuh.getmY(),paint);
         this.iv_canvas.invalidate();
@@ -174,8 +194,8 @@ public class Fragment_play extends Fragment{
     }
 
     public void drawLaser(int x, int y){
-        Rect laser = new Rect(x+10, y+350, x-10, y+300);
-        this.mCanvas.drawRect(laser, paint);
+        Rect laser = new Rect(x+135, y-80, x+165, y-10);
+        this.mCanvas.drawRect(laser, paintLaser);
     }
 
     public void setLaser(Laser laser) {
@@ -183,7 +203,7 @@ public class Fragment_play extends Fragment{
         this.lasers.add(laser);
         resetCanvas();
         for (int i = 0; i < this.lasers.size(); i++) {
-            this.drawLaser((int) (bitMapW-this.lasers.get(i).getmX()), (int) this.lasers.get(i).getmY());
+            this.drawLaser((int)this.lasers.get(i).getmX(), (int) this.lasers.get(i).getmY());
         }
     }
 
@@ -193,7 +213,6 @@ public class Fragment_play extends Fragment{
         for (int i = 0; i < this.lasers.size(); i++) {
             this.drawLaser((int)this.lasers.get(i).getmX(), (int)this.lasers.get(i).getmY());
         }
-
     }
 }
 

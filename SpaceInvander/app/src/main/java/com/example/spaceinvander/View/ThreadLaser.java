@@ -14,6 +14,7 @@ public class ThreadLaser implements Runnable{
         this.myThread = new Thread(this);
         this.handler = handler;
         this.mPlayer = player;
+        this.pause = false;
     }
 
     public void start(){
@@ -32,5 +33,25 @@ public class ThreadLaser implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void pause(){
+        try {
+            this.myThread.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void resume(){
+        this.myThread.notifyAll();
+    }
+
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }
+
+    public boolean getPause(){
+        return this.pause;
     }
 }

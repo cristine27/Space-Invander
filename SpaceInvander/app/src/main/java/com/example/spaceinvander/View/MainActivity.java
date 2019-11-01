@@ -4,26 +4,45 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.example.spaceinvander.Presenter.MainPresenter;
 import com.example.spaceinvander.R;
 
-public class MainActivity extends AppCompatActivity implements ActivityInterface,GameInterface{
+public class MainActivity extends AppCompatActivity implements ActivityInterface,GameInterface, SensorEventListener {
     protected Home_fragment home_fragment;
     protected Fragment_play fragment_play;
     protected FragmentManager fragmentManager;
     protected FrameLayout frame_container;
+    protected Sensor accelerometer;
+    protected SensorManager manager;
+    protected float[] accelerometerRead = new float[3];
+    protected float[] orientationAngles = new float[9];
+    protected float[] rotationMatrix = new float[9];
+    private final float Value_Drift = 0.05f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MainPresenter presenter = new MainPresenter(this);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         this.frame_container = findViewById(R.id.frame_container);
         this.home_fragment = Home_fragment.createHome(presenter);
         this.fragment_play = Fragment_play.createGame(presenter,this);
+
+        this.manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        this.accelerometer = this.manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         this.fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
@@ -68,5 +87,26 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
     @Override
     public void setHeight(int h) {
         this.fragment_play.setBitmapH(h);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        int sensorType = event.sensor.getType();
+        if(sensorType==Sensor.TYPE_ACCELEROMETER){
+            this.accelerometerRead = event.values.clone();
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    @Override
+    public  void onStart() {
+        super.onStart();
+        if(this.accelerometer!=null) {
+            this.manager.registerListener(this, this.accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        }
     }
 }
