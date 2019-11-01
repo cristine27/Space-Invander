@@ -23,16 +23,13 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
     protected FrameLayout frame_container;
     protected Sensor accelerometer;
     protected SensorManager manager;
-    protected float[] accelerometerRead = new float[3];
-    protected float[] orientationAngles = new float[9];
-    protected float[] rotationMatrix = new float[9];
-    private final float Value_Drift = 0.05f;
+    protected MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MainPresenter presenter = new MainPresenter(this);
+        this.presenter = new MainPresenter(this);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -43,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
 
         this.manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         this.accelerometer = this.manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
 
         this.fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
@@ -91,10 +89,7 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        int sensorType = event.sensor.getType();
-        if(sensorType==Sensor.TYPE_ACCELEROMETER){
-            this.accelerometerRead = event.values.clone();
-        }
+        System.out.println(event.values[0]);
     }
 
     @Override
@@ -108,5 +103,11 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
         if(this.accelerometer!=null) {
             this.manager.registerListener(this, this.accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        this.manager.unregisterListener(this);
     }
 }

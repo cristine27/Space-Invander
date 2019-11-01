@@ -52,4 +52,12 @@ public class Player {
     public float getmY() {
         return mY;
     }
+
+    public void setmY(float mY) {
+        this.mY = mY;
+    }
+
+    public void setmX(float mX) {
+        this.mX = mX;
+    }
 }

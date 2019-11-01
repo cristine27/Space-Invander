@@ -13,6 +13,8 @@ public  class ThreadHandler extends Handler {
 
     protected final static int laser = 1;
     protected final static int lasers = 2;
+    protected final static int enemyLaser = 3;
+    protected final static int enemyLasers = 4;
 
     public ThreadHandler (MainActivity mainActivity){
         this.mainActivity = mainActivity;
@@ -26,6 +28,12 @@ public  class ThreadHandler extends Handler {
         }else if(msg.what== this.lasers){
             ArrayList<Laser> lasers = (ArrayList<Laser>) msg.obj;
             this.mainActivity.fragment_play.setLasers(lasers);
+        }else if(msg.what== this.enemyLaser){
+            Laser enemyLaser = (Laser) msg.obj;
+            this.mainActivity.fragment_play.setEnemyLaser(enemyLaser);
+        }else if(msg.what== this.enemyLasers){
+            ArrayList<Laser> enemyLasers = (ArrayList<Laser>) msg.obj;
+            this.mainActivity.fragment_play.setEnemyLasers(enemyLasers);
         }
     }
 
@@ -39,6 +47,20 @@ public  class ThreadHandler extends Handler {
     public void setLasers(ArrayList<Laser> lasers){
         Message msg = new Message();
         msg.what = this.lasers;
+        msg.obj = lasers;
+        this.sendMessage(msg);
+    }
+
+    public void setEnemyLaser(Laser laser){
+        Message msg = new Message();
+        msg.what = this.enemyLaser;
+        msg.obj = laser;
+        this.sendMessage(msg);
+    }
+
+    public void setEnemyLasers(ArrayList<Laser> lasers){
+        Message msg = new Message();
+        msg.what = this.enemyLasers;
         msg.obj = lasers;
         this.sendMessage(msg);
     }

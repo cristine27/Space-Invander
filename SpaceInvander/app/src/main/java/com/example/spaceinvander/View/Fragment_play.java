@@ -58,13 +58,21 @@ public class Fragment_play extends Fragment{
 
     private Paint paint;
     protected Paint paintLaser;
+    protected Paint paintEnemyLaser;
+
+    protected ColorFilter putih;
+    protected ColorFilter merah;
+
     private MainPresenter mp;
     protected MainActivity mainActivity;
     protected ThreadEnemy threadEnemy;
     protected ThreadLaser threadLaser;
     protected ThreadLaserMove threadLaserMove;
+    protected ThreadEnemyLaser threadEnemyLaser;
+    protected ThreadEnemyLaserMove threadEnemyLaserMove;
     protected ThreadHandler threadHandler;
     protected ArrayList<Laser> lasers = new ArrayList<>();
+    protected ArrayList<Laser> enemyLasers = new ArrayList<>();
 
     protected  View view;
 
@@ -173,13 +181,28 @@ public class Fragment_play extends Fragment{
         this.threadEnemy = new ThreadEnemy(this.musuh);
         this.threadEnemy.start();
 
+        this.threadEnemyLaser = new ThreadEnemyLaser(this.threadHandler, this.musuh);
+        this.threadEnemyLaser.start();
+
+        this.threadEnemyLaserMove = new ThreadEnemyLaserMove(this.threadHandler, this.enemyLasers, this.player);
+        this.threadEnemyLaserMove.start();
+
         this.resetCanvas();
     }
 
     public void resetCanvas(){
         this.bitmap.eraseColor(Color.TRANSPARENT);
+
         this.paint = new Paint();
         this.paintLaser = new Paint();
+        this.paintEnemyLaser = new Paint();
+
+        this.putih = new PorterDuffColorFilter(getResources().getColor(R.color.white),PorterDuff.Mode.SRC_IN);
+        this.merah = new PorterDuffColorFilter(getResources().getColor(R.color.red),PorterDuff.Mode.SRC_IN);
+
+        this.paintLaser.setColorFilter(putih);
+        this.paintEnemyLaser.setColorFilter(merah);
+
         this.mCanvas.drawBitmap(player.getMbitmap(),player.getmX(),player.getmY(),paint);
         this.mCanvas.drawBitmap(musuh.getMbitmap(),musuh.getmX(),musuh.getmY(),paint);
         this.iv_canvas.invalidate();
@@ -212,6 +235,27 @@ public class Fragment_play extends Fragment{
         resetCanvas();
         for (int i = 0; i < this.lasers.size(); i++) {
             this.drawLaser((int)this.lasers.get(i).getmX(), (int)this.lasers.get(i).getmY());
+        }
+    }
+
+    public void drawEnemyLaser(int x, int y){
+        Rect laser = new Rect(x+135, y+200, x+165, y+250);
+        this.mCanvas.drawRect(laser, paintEnemyLaser);
+    }
+
+    public void setEnemyLaser(Laser laser) {
+        this.enemyLasers.add(laser);
+        resetCanvas();
+        for (int i = 0; i < this.enemyLasers.size(); i++) {
+            this.drawEnemyLaser((int)this.enemyLasers.get(i).getmX(), (int) this.enemyLasers.get(i).getmY());
+        }
+    }
+
+    public void setEnemyLasers(ArrayList<Laser> lasers){
+        this.enemyLasers = lasers;
+        resetCanvas();
+        for (int i = 0; i < this.enemyLasers.size(); i++) {
+            this.drawEnemyLaser((int)this.enemyLasers.get(i).getmX(), (int)this.enemyLasers.get(i).getmY());
         }
     }
 }
