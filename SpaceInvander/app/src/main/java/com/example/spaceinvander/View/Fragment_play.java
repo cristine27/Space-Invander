@@ -41,6 +41,12 @@ public class Fragment_play extends Fragment{
     private static int METOEOR_DESTROYED = 0;
     private volatile boolean isGameOver;
     private volatile boolean isHighScore;
+<<<<<<< Updated upstream
+=======
+
+    private Paint paint;
+    protected Paint paintLaser;
+>>>>>>> Stashed changes
     private MainPresenter mp;
 
     protected  View view;
@@ -79,6 +85,7 @@ public class Fragment_play extends Fragment{
         this.iv_canvas = view.findViewById(R.id.iv_layar);
         this.btn_left = view.findViewById(R.id.btn_left);
         this.btn_right = view.findViewById(R.id.btn_right);
+<<<<<<< Updated upstream
  
 
 
@@ -116,6 +123,8 @@ public class Fragment_play extends Fragment{
         this.btn_left = view.findViewById(R.id.btn_left);
         this.btn_right = view.findViewById(R.id.btn_right);
 
+=======
+>>>>>>> Stashed changes
         this.initiateCanvas();
 
         this.btn_left.setOnTouchListener(new View.OnTouchListener() {
@@ -167,14 +176,28 @@ public class Fragment_play extends Fragment{
         this.threadLaser = new ThreadLaser(this.handler, this.player, laser);
         this.threadLaser.start();
 
+<<<<<<< Updated upstream
         this.laserMoveThread = new LaserMoveThread(this.handler, this.lasers);
         this.laserMoveThread.start();
+=======
+        this.threadLaserMove = new ThreadLaserMove(this.threadHandler, lasers, this.musuh);
+        this.threadLaserMove.start();
+
+        this.threadEnemy = new ThreadEnemy(this.musuh);
+        this.threadEnemy.start();
+
+>>>>>>> Stashed changes
         this.resetCanvas();
     }
 
     public void resetCanvas(){
         this.bitmap.eraseColor(Color.TRANSPARENT);
+<<<<<<< Updated upstream
         Paint paint = new Paint();
+=======
+        this.paint = new Paint();
+        this.paintLaser = new Paint();
+>>>>>>> Stashed changes
         this.mCanvas.drawBitmap(player.getMbitmap(),player.getmX(),player.getmY(),paint);
         this.iv_canvas.invalidate();
     }
@@ -192,15 +215,24 @@ public class Fragment_play extends Fragment{
     }
 
     public void drawLaser(int x, int y){
+<<<<<<< Updated upstream
         Rect rectangle = new Rect(x+10 , y + 350, x - 10, y + 300);
         this.mCanvas.drawRect(rectangle, paint);
+=======
+        Rect laser = new Rect(x+135, y-80, x+165, y-10);
+        this.mCanvas.drawRect(laser, paintLaser);
+>>>>>>> Stashed changes
     }
 
     public void setLaser(Laser bullet){
         this.lasers.add(bullet);
         resetCanvas();
         for (int i = 0; i < this.lasers.size(); i++) {
+<<<<<<< Updated upstream
             this.drawLaser((int) this.lasers.get(i).getmX(), (int) this.lasers.get(i).getmY());
+=======
+            this.drawLaser((int)(this.lasers.get(i).getmX()), (int) this.lasers.get(i).getmY());
+>>>>>>> Stashed changes
         }
     }
 

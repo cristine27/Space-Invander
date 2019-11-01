@@ -29,6 +29,7 @@ public class ThreadLaser implements Runnable {
 
     @Override
     public void run() {
+<<<<<<< Updated upstream
         while(true){
             while(!pause){
                 Laser newLaser = new Laser(mPlayer.getmX(), mPlayer.getmY(), this.laser);
@@ -38,6 +39,16 @@ public class ThreadLaser implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+=======
+        while (true){
+            Laser laser = new Laser(this.mPlayer.getmX(),this.mPlayer.getmY());
+            System.out.println("null ?");
+            this.handler.setLaser(laser);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+>>>>>>> Stashed changes
             }
         }
     }
