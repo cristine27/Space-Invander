@@ -8,7 +8,9 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PointF;
-
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -19,7 +21,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,37 +35,46 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-
 public class Fragment_play extends Fragment{
+    private static Fragment_play game;
+    private MainPresenter presenter;
+    protected TextView score;
+    protected ImageView life1,life2,life3,iv_canvas;
+    protected ImageView btn_left,btn_right,pause;
+
+    private Player player;
+    private Meteor musuh;
+
+    protected Canvas mCanvas;
+    protected Bitmap bitmap;
+    protected Bitmap bitmapE;
     private int bitmapH, bitmapW;
     private static int SCORE = 0;
     private static int METOEOR_DESTROYED = 0;
     private volatile boolean isGameOver;
     private volatile boolean isHighScore;
-<<<<<<< Updated upstream
-=======
 
     private Paint paint;
     protected Paint paintLaser;
->>>>>>> Stashed changes
     private MainPresenter mp;
+    protected MainActivity mainActivity;
+    protected ThreadEnemy threadEnemy;
+    protected ThreadLaser threadLaser;
+    protected ThreadLaserMove threadLaserMove;
+    protected ThreadHandler threadHandler;
+    protected ArrayList<Laser> lasers = new ArrayList<>();
 
     protected  View view;
-    protected ThreadLaser threadLaser;
-    protected LaserMoveThread laserMoveThread;
-    protected ThreadHandler handler;
-
-    protected MainActivity mainActivity;
 
     public Fragment_play() {
         // Required empty public constructor
     }
 
-    public static Fragment_play createGame(MainPresenter presenter, MainActivity mainActivity){
+    public static Fragment_play createGame(MainPresenter presenter,MainActivity mainActivity){
         if(game==null){
             game = new Fragment_play();
-            game.presenter = presenter;
             game.mainActivity = mainActivity;
+            game.presenter = presenter;
         }
         return game;
     }
@@ -74,57 +84,14 @@ public class Fragment_play extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.view = inflater.inflate(R.layout.fragment_play, container, false);
-      
-//      find view by id
-        this.textScore = view.findViewById(R.id.tv_score);
         this.score = view.findViewById(R.id.tv_angka_score);
         this.life1 = view.findViewById(R.id.iv_life1);
         this.life2 = view.findViewById(R.id.iv_life2);
         this.life3 = view.findViewById(R.id.iv_life3);
-        this.pause = view.findViewById(R.id.ib_pause);
-        this.iv_canvas = view.findViewById(R.id.iv_layar);
-        this.btn_left = view.findViewById(R.id.btn_left);
-        this.btn_right = view.findViewById(R.id.btn_right);
-<<<<<<< Updated upstream
- 
-
-
-        this.pause.setOnClickListener(this);
-        this.btn_left.setOnClickListener(this);
-        this.btn_right.setOnClickListener(this);
-
-        this.handler = new ThreadHandler(this.mainActivity);
-        this.lasers = new ArrayList<>();
-        this.iv_canvas.setOnTouchListener(this);
-
-        this.gestureListener = new GestureListener();
-        this.gestureDetector = new GestureDetector(gestureListener);
-
-        this.mBitmap = Bitmap.createBitmap(this.iv_canvas.getWidth(), this.iv_canvas.getHeight(), Bitmap.Config.ARGB_8888);
-        this.iv_canvas.setImageBitmap(this.mBitmap);
-        this.mCanvas = new Canvas(this.mBitmap);
-        this.mCanvas.drawBitmap(mPlayer.getMbitmap(),mPlayer.getmX(), mPlayer.getmY(),this.mPaint);
-        return view;
-    }
-
-    public static Fragment_play newInstance(int screenX, int screenY) {
-        Fragment_play fragment = new Fragment_play(screenX, screenY);
-        return fragment;
-    }
-
-
-        this.iv_canvas.invalidate();
-    }
-
-    @Override
-    public void onClick(View v) {
         this.pause = view.findViewById(R.id.iv_pause);
         this.iv_canvas = view.findViewById(R.id.iv_layar);
         this.btn_left = view.findViewById(R.id.btn_left);
         this.btn_right = view.findViewById(R.id.btn_right);
-
-=======
->>>>>>> Stashed changes
         this.initiateCanvas();
 
         this.btn_left.setOnTouchListener(new View.OnTouchListener() {
@@ -160,87 +127,70 @@ public class Fragment_play extends Fragment{
     }
 
     private void initiateCanvas(){
-        this.handler = new ThreadHandler(this.mainActivity);
         System.out.println(this.bitmapW+" "+this.bitmapH);
+
+        this.threadHandler = new ThreadHandler(this.mainActivity);
+
         this.bitmap = Bitmap.createBitmap(this.bitmapW,this.bitmapH,Bitmap.Config.ARGB_8888);
+        this.bitmapE = Bitmap.createBitmap(this.bitmapW,this.bitmapH,Bitmap.Config.ARGB_8888);
         Bitmap player = BitmapFactory.decodeResource(getResources(),R.drawable.spaceship);
-        
-        Bitmap laser = BitmapFactory.decodeResource(getResources(), R.drawable.laser);
-        this.laser = new Laser(this.bitmapW/2 - player.getWidth()/2,this.bitmapH/2 - 100 + player.getHeight(), laser);
-        
+        Bitmap musuh = BitmapFactory.decodeResource(getResources(),R.drawable.enemy);
         this.bitmap = this.bitmap.copy(Bitmap.Config.ARGB_8888,true);
+        this.bitmapE = this.bitmapE.copy(Bitmap.Config.ARGB_8888,true);
         this.mCanvas = new Canvas(this.bitmap);
 
-        this.player = new Player(this.bitmapW/2 - player.getWidth()/2,this.bitmapH/2 + player.getHeight(),player,this.bitmapW);
+        this.player = new Player(this.bitmapW/2 - player.getWidth()/2,this.bitmapH/2 + player.getHeight()*2,player,this.bitmapW);
+        this.musuh = new Meteor(this.bitmapW/2-musuh.getWidth()/2,musuh.getHeight(),musuh,this.bitmapW,this.bitmapH);
         this.iv_canvas.setImageBitmap(this.bitmap);
-        this.threadLaser = new ThreadLaser(this.handler, this.player, laser);
+
+        this.threadLaser = new ThreadLaser(this.threadHandler, this.player);
         this.threadLaser.start();
 
-<<<<<<< Updated upstream
-        this.laserMoveThread = new LaserMoveThread(this.handler, this.lasers);
-        this.laserMoveThread.start();
-=======
         this.threadLaserMove = new ThreadLaserMove(this.threadHandler, lasers, this.musuh);
         this.threadLaserMove.start();
 
         this.threadEnemy = new ThreadEnemy(this.musuh);
         this.threadEnemy.start();
 
->>>>>>> Stashed changes
         this.resetCanvas();
     }
 
     public void resetCanvas(){
         this.bitmap.eraseColor(Color.TRANSPARENT);
-<<<<<<< Updated upstream
-        Paint paint = new Paint();
-=======
         this.paint = new Paint();
         this.paintLaser = new Paint();
->>>>>>> Stashed changes
         this.mCanvas.drawBitmap(player.getMbitmap(),player.getmX(),player.getmY(),paint);
+        this.mCanvas.drawBitmap(musuh.getMbitmap(),musuh.getmX(),musuh.getmY(),paint);
         this.iv_canvas.invalidate();
     }
 
     public void setBitmapH(int bitmapH) {
-        this.bitmapH = bitmapH;co
+        this.bitmapH = bitmapH;
     }
 
     public void setBitmapW(int bitmapW) {
         this.bitmapW = bitmapW;
     }
 
-    public void draw(){
-
-    }
-
     public void drawLaser(int x, int y){
-<<<<<<< Updated upstream
-        Rect rectangle = new Rect(x+10 , y + 350, x - 10, y + 300);
-        this.mCanvas.drawRect(rectangle, paint);
-=======
         Rect laser = new Rect(x+135, y-80, x+165, y-10);
         this.mCanvas.drawRect(laser, paintLaser);
->>>>>>> Stashed changes
     }
 
-    public void setLaser(Laser bullet){
-        this.lasers.add(bullet);
+    public void setLaser(Laser laser) {
+        int bitMapW = this.bitmapW;
+        this.lasers.add(laser);
         resetCanvas();
         for (int i = 0; i < this.lasers.size(); i++) {
-<<<<<<< Updated upstream
-            this.drawLaser((int) this.lasers.get(i).getmX(), (int) this.lasers.get(i).getmY());
-=======
             this.drawLaser((int)(this.lasers.get(i).getmX()), (int) this.lasers.get(i).getmY());
->>>>>>> Stashed changes
         }
     }
 
-    public void setLasers(ArrayList<Laser> bullets){
-        this.lasers = bullets;
+    public void setLasers(ArrayList<Laser> lasers){
+        this.lasers = lasers;
         resetCanvas();
         for (int i = 0; i < this.lasers.size(); i++) {
-            this.drawLaser((int) this.lasers.get(i).getmX(), (int) this.lasers.get(i).getmY());
+            this.drawLaser((int)this.lasers.get(i).getmX(), (int)this.lasers.get(i).getmY());
         }
 
     }

@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 import com.example.spaceinvander.R;
-import com.example.spaceinvander.View.ThreadLaser;
 
 public class Laser {
     private Bitmap mbitmap;
@@ -14,8 +13,7 @@ public class Laser {
     private float mY;
     private Rect mCekCollision;
 
-    public Laser(float posisiX, float posisiY, Bitmap laser){
-        this.mbitmap = laser;
+    public Laser(float posisiX, float posisiY){
         this.mX = posisiX;
         this.mY = posisiY;
     }

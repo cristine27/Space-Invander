@@ -16,11 +16,11 @@ public class Player {
     private float mY;
     private float batas;
 
+    private ArrayList<Laser> mlaser;
     public Player(float x, float y,Bitmap spaceship,float batas){
         this.mbitmap = spaceship;
         mX = x;
         mY = y;
-
         mlaser = new ArrayList<>();
         this.batas = batas;
     }
@@ -51,9 +51,5 @@ public class Player {
 
     public float getmY() {
         return mY;
-    }
-
-    public void fire(){
-
     }
 }

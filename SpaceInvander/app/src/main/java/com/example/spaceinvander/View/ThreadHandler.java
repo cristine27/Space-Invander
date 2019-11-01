@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public  class ThreadHandler extends Handler {
     protected MainActivity mainActivity;
 
-    protected int laser = 1;
-    protected int lasers = 2;
+    protected final static int laser = 1;
+    protected final static int lasers = 2;
 
     public ThreadHandler (MainActivity mainActivity){
         this.mainActivity = mainActivity;

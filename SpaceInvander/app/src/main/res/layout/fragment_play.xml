@@ -32,14 +32,14 @@
             android:textSize="@dimen/scoreSize"
             android:textColor="@color/white"/>
 
-        <ImageButton
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_pause_white_24dp"
             android:layout_alignParentRight="true"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:id="@+id/ib_pause"/>
+            android:id="@+id/iv_pause"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -82,6 +82,9 @@
             android:layout_marginTop="100dp"/>
 
         <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_left"
             android:background="@color/white"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="550dp"
@@ -90,6 +93,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/ic_right"
             android:background="@color/white"
             android:layout_alignParentRight="true"
             android:layout_marginTop="550dp"
