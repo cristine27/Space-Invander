@@ -13,6 +13,7 @@ public class Meteor {
     private float kecepatan;
     private boolean flag1;
     private boolean flag2;
+    private int heart;
 
     public Meteor(float mX, float mY,Bitmap enemy,float batasX,float batasY){
         this.mX = mX;
@@ -23,6 +24,7 @@ public class Meteor {
         this.kecepatan = 0;
         this.flag1 = false;
         this.flag2 = false;
+        this.heart = 300;
     }
 
     public Bitmap getMbitmap(){
@@ -78,5 +80,13 @@ public class Meteor {
             this.mY-=this.kecepatan;
             flag2=true;
         }
+    }
+
+    public void decreaseHeart(){
+        this.heart-=50;
+    }
+
+    public int getHeart() {
+        return heart;
     }
 }

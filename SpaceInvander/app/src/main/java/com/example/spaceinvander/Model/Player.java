@@ -1,32 +1,20 @@
 package com.example.spaceinvander.Model;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-
-import com.example.spaceinvander.R;
-
-import java.util.ArrayList;
 
 public class Player {
     private Bitmap mbitmap;
-
+    private int heart;
     private float mX;
     private float mY;
     private float batas;
 
-    private ArrayList<Laser> mlaser;
     public Player(float x, float y,Bitmap spaceship,float batas){
         this.mbitmap = spaceship;
         mX = x;
         mY = y;
-        mlaser = new ArrayList<>();
         this.batas = batas;
-    }
-
-    public ArrayList<Laser> getMlaser() {
-        return mlaser;
+        this.heart = 300;
     }
 
     public Bitmap getMbitmap() {
@@ -59,5 +47,13 @@ public class Player {
 
     public void setmX(float mX) {
         this.mX = mX;
+    }
+
+    public void decreaseHeart(){
+        this.heart-=30;
+    }
+
+    public int getHeart() {
+        return heart;
     }
 }

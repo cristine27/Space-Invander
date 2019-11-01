@@ -25,7 +25,6 @@ public class ThreadLaser implements Runnable{
     public void run() {
         while (true){
             Laser laser = new Laser(this.mPlayer.getmX(),this.mPlayer.getmY());
-            System.out.println("null ?");
             this.handler.setLaser(laser);
             try {
                 Thread.sleep(100);

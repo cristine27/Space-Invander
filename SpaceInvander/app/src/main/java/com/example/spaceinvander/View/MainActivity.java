@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        System.out.println(event.values[0]);
+        System.out.println("ini value dari sensor: "+event.values[0]);
     }
 
     @Override

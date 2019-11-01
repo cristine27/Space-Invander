@@ -34,6 +34,11 @@ public class ThreadLaserMove implements Runnable{
                     System.out.println("y = " + Math.abs(this.lasers.get(i).getmY() - this.enemy.getmY()));
                     if (Math.abs(this.lasers.get(i).getmX() - this.enemy.getmX()) < 75 && Math.abs(this.lasers.get(i).getmY() - this.enemy.getmY()) < 350) {
                         System.out.println("yes");
+                        this.enemy.decreaseHeart();
+                        if(this.enemy.getHeart()==0){
+                            System.out.println("darah enemy habis");
+                            break;
+                        }
                         this.lasers.remove(i);
                         this.threadHandler.setLasers(this.lasers);
                     }
