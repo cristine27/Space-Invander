@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
     protected Sensor accelerometer;
     protected SensorManager manager;
     protected MainPresenter presenter;
+    protected double sensorValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,11 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
     }
 
     @Override
+    public double getSensorValue() {
+        return this.sensorValue;
+    }
+
+    @Override
     public void setWidth(int w) {
         this.fragment_play.setBitmapW(w);
     }
@@ -89,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        System.out.println("ini value dari sensor: "+event.values[0]);
+        sensorValue=event.values[0];
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.example.spaceinvander.View.MainActivity;
 public class MainPresenter {
     ActivityInterface ai;
     GameInterface gi;
+    int sensorValue;
 
     public MainPresenter(MainActivity ma){
         this.ai = ma;
@@ -24,5 +25,9 @@ public class MainPresenter {
 
     public void setHeight(int h){
         this.gi.setHeight(h);
+    }
+
+    public double getSensorValue(){
+        return this.ai.getSensorValue();
     }
 }

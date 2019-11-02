@@ -39,6 +39,8 @@ import java.util.ArrayList;
 public class Fragment_play extends Fragment{
     private static Fragment_play game;
     private MainPresenter presenter;
+    private double sensorValue;
+
     protected TextView score;
     protected ImageView life1,life2,life3,iv_canvas;
     protected ImageView btn_left,btn_right,pause;
@@ -102,7 +104,8 @@ public class Fragment_play extends Fragment{
         this.iv_canvas = view.findViewById(R.id.iv_layar);
         this.btn_left = view.findViewById(R.id.btn_left);
         this.btn_right = view.findViewById(R.id.btn_right);
-
+        this.sensorValue = presenter.getSensorValue();
+        
         this.paint = new Paint();
 
         this.initiateCanvas();
