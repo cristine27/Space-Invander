@@ -23,11 +23,15 @@ public class ThreadLaser implements Runnable{
 
     @Override
     public void run() {
+        loop:
         while (true){
+            if(this.handler.cekEnd()){
+                break loop;
+            }
             Laser laser = new Laser(this.mPlayer.getmX(),this.mPlayer.getmY());
             this.handler.setLaser(laser);
             try {
-                Thread.sleep(100);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

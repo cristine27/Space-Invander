@@ -44,6 +44,7 @@ public class Fragment_play extends Fragment{
     protected TextView score;
     protected ImageView life1,life2,life3,iv_canvas;
     protected ImageView btn_left,btn_right,pause;
+    protected ImageView gameover;
 
     private Player player;
     private Meteor musuh;
@@ -52,11 +53,10 @@ public class Fragment_play extends Fragment{
     protected Bitmap bitmap;
     protected Bitmap bitmapE;
     private int bitmapH, bitmapW;
-    private static int SCORE = 0;
-    private static int METOEOR_DESTROYED = 0;
-    private volatile boolean isGameOver;
+
     private volatile boolean isHighScore;
     private boolean isPause = false;
+    protected boolean isGameover = false;
 
     private Paint paint;
     protected Paint paintLaser;
@@ -64,6 +64,7 @@ public class Fragment_play extends Fragment{
 
     protected ColorFilter putih;
     protected ColorFilter merah;
+    protected ColorFilter hitam;
 
     private MainPresenter mp;
     protected MainActivity mainActivity;
@@ -105,6 +106,7 @@ public class Fragment_play extends Fragment{
         this.btn_left = view.findViewById(R.id.btn_left);
         this.btn_right = view.findViewById(R.id.btn_right);
         this.sensorValue = presenter.getSensorValue();
+        this.gameover = view.findViewById(R.id.iv_gameover);
         
         this.paint = new Paint();
 
@@ -202,6 +204,7 @@ public class Fragment_play extends Fragment{
 
         this.putih = new PorterDuffColorFilter(getResources().getColor(R.color.white),PorterDuff.Mode.SRC_IN);
         this.merah = new PorterDuffColorFilter(getResources().getColor(R.color.red),PorterDuff.Mode.SRC_IN);
+        this.hitam = new PorterDuffColorFilter(getResources().getColor(R.color.black),PorterDuff.Mode.SRC_IN);
 
         this.paintLaser.setColorFilter(putih);
         this.paintEnemyLaser.setColorFilter(merah);
@@ -260,6 +263,45 @@ public class Fragment_play extends Fragment{
         for (int i = 0; i < this.enemyLasers.size(); i++) {
             this.drawEnemyLaser((int)this.enemyLasers.get(i).getmX(), (int)this.enemyLasers.get(i).getmY());
         }
+    }
+
+    public void increaseHit(){
+        this.score.setText(this.musuh.getHit());
+        resetCanvas();
+    }
+
+    public void decreaseLife(){
+        System.out.println("masuk decrease life ?");
+        if(this.player.getLife1()){
+            System.out.println("masuk life 1");
+            if (this.player.getLife2()){
+                System.out.println("masuk life 2");
+                if (this.player.getLife3()){
+
+                }
+                else{
+                    this.life3.setImageResource(R.drawable.ic_favorite_black_24dp);
+                }
+            }
+            else{
+                this.life2.setImageResource(R.drawable.ic_favorite_black_24dp);
+            }
+        }else{
+            this.life1.setImageResource(R.drawable.ic_favorite_black_24dp);
+            this.showGameOver();
+        }
+        resetCanvas();
+    }
+
+    public void showGameOver(){
+        this.gameover.setVisibility(View.VISIBLE);
+        this.isGameover = true;
+        resetCanvas();
+    }
+
+
+    public boolean getGameover(){
+        return this.isGameover;
     }
 }
 

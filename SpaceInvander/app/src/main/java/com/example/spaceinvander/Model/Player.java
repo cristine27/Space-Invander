@@ -1,20 +1,24 @@
 package com.example.spaceinvander.Model;
 
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 
 public class Player {
     private Bitmap mbitmap;
-    private int heart;
     private float mX;
     private float mY;
     private float batas;
+    private boolean[] life = new boolean[3];
+    private boolean end;
 
     public Player(float x, float y,Bitmap spaceship,float batas){
         this.mbitmap = spaceship;
         mX = x;
         mY = y;
         this.batas = batas;
-        this.heart = 300;
+        for(int i = 0 ; i < life.length ; i++){
+            this.life[i] = true;
+        }
     }
 
     public Bitmap getMbitmap() {
@@ -50,10 +54,36 @@ public class Player {
     }
 
     public void decreaseHeart(){
-        this.heart-=30;
+        if(life[0]){
+            if(life[1]){
+                if (life[2]) {
+                    System.out.println("darah 3 hilang");
+                    this.life[2] = false;
+                }
+                else{
+                    System.out.println("darah 2 hilang");
+                    this.life[1] = false;
+                }
+            }
+            else{
+                System.out.println("darah 1 hilang");
+                this.life[0] = false;
+                this.end = true;
+            }
+        }
     }
 
-    public int getHeart() {
-        return heart;
+    public boolean getLife1() {
+        return this.life[0];
+    }
+    public boolean getLife2() {
+        return this.life[1];
+    }
+    public boolean getLife3() {
+        return this.life[2];
+    }
+
+    public boolean getEnd(){
+        return this.end;
     }
 }
