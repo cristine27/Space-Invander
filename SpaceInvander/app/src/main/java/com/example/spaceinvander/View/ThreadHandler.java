@@ -11,10 +11,14 @@ import java.util.ArrayList;
 public  class ThreadHandler extends Handler {
     protected MainActivity mainActivity;
 
+    protected final static int health = 0;
     protected final static int laser = 1;
     protected final static int lasers = 2;
     protected final static int enemyLaser = 3;
     protected final static int enemyLasers = 4;
+    protected final static int life = 5;
+    protected final static int gameover = 6;
+    protected final static int cekEnd = 7;
 
     public ThreadHandler (MainActivity mainActivity){
         this.mainActivity = mainActivity;
@@ -34,6 +38,10 @@ public  class ThreadHandler extends Handler {
         }else if(msg.what== this.enemyLasers){
             ArrayList<Laser> enemyLasers = (ArrayList<Laser>) msg.obj;
             this.mainActivity.fragment_play.setEnemyLasers(enemyLasers);
+        }else if(msg.what == this.health){
+            this.mainActivity.fragment_play.increaseHit();
+        }else if(msg.what == this.life){
+            this.mainActivity.fragment_play.decreaseLife();
         }
     }
 
@@ -63,5 +71,30 @@ public  class ThreadHandler extends Handler {
         msg.what = this.enemyLasers;
         msg.obj = lasers;
         this.sendMessage(msg);
+    }
+
+    public void increaseHit(){
+        Message msg = new Message();
+        msg.what = this.health;
+        this.sendMessage(msg);
+    }
+
+    public void decreaseLife(){
+        Message msg = new Message();
+        msg.what = this.life;
+        this.sendMessage(msg);
+    }
+
+    public void setEnd(){
+        Message msg = new Message();
+        msg.what = this.gameover;
+        this.sendMessage(msg);
+    }
+
+    public boolean cekEnd(){
+        Message msg = new Message();
+        msg.what = this.cekEnd;
+        this.sendMessage(msg);
+        return this.mainActivity.fragment_play.getGameover();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.spaceinvander.Model;
 
 import android.graphics.Bitmap;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -13,7 +14,8 @@ public class Meteor {
     private float kecepatan;
     private boolean flag1;
     private boolean flag2;
-    private int heart;
+    private int int_hits;
+    private String str_hits;
 
     public Meteor(float mX, float mY,Bitmap enemy,float batasX,float batasY){
         this.mX = mX;
@@ -24,7 +26,8 @@ public class Meteor {
         this.kecepatan = 0;
         this.flag1 = false;
         this.flag2 = false;
-        this.heart = 300;
+        this.int_hits = 0;
+        this.str_hits = this.int_hits+"";
     }
 
     public Bitmap getMbitmap(){
@@ -82,11 +85,12 @@ public class Meteor {
         }
     }
 
-    public void decreaseHeart(){
-        this.heart-=50;
+    public void increateHit(){
+        this.int_hits+= 1;
+        this.str_hits = this.int_hits + "";
     }
 
-    public int getHeart() {
-        return heart;
+    public String getHit() {
+        return this.str_hits;
     }
 }

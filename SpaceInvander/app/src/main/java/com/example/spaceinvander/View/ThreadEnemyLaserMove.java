@@ -12,6 +12,7 @@ public class ThreadEnemyLaserMove implements Runnable{
     protected ArrayList<Laser> lasers = new ArrayList<>();
     protected boolean pause;
     protected Player mPlayer;
+    protected boolean end;
 
     public ThreadEnemyLaserMove(ThreadHandler handler, ArrayList<Laser> lasers,Player player){
         this.threadHandler = handler;
@@ -26,28 +27,33 @@ public class ThreadEnemyLaserMove implements Runnable{
 
     @Override
     public void run() {
+        loop:
         while(true){
             while(!pause){
                 for(int i = 0 ; i < lasers.size(); i++){
-//                    System.out.println("collision ???");
+                    System.out.println("collision ???");
 //                    System.out.println("x = " + Math.abs(this.lasers.get(i).getmX() - this.mPlayer.getmX()));
 //                    System.out.println("y = " + Math.abs(this.lasers.get(i).getmY() - this.mPlayer.getmY()));
                     if (Math.abs(this.lasers.get(i).getmX() - this.mPlayer.getmX()) < 150 && Math.abs(this.lasers.get(i).getmY() - this.mPlayer.getmY()) < 250) {
-//                        System.out.println("yes");
-                        this.mPlayer.decreaseHeart();
-//                        System.out.println(this.mPlayer.getHeart());
-                        if(this.mPlayer.getHeart()==0){
-                            System.out.printf("darah player habis");
-                            break;
+
+                        System.out.println("yes");
+                        if(!this.mPlayer.getEnd()){
+                            this.mPlayer.decreaseHeart();
+                            this.lasers.remove(i);
+                            this.threadHandler.decreaseLife();
+                            this.threadHandler.setEnemyLasers(this.lasers);
+                        }else{
+                            System.out.println("selesai");
+                            this.threadHandler.setEnd();
+                            break loop;
+
                         }
-                        this.lasers.remove(i);
-                        this.threadHandler.setEnemyLasers(this.lasers);
                     }
-                    this.lasers.get(i).setmY(this.lasers.get(i).getmY() + 30);
+                    this.lasers.get(i).setmY(this.lasers.get(i).getmY() + 20);
                 }
                 this.threadHandler.setEnemyLasers(this.lasers);
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

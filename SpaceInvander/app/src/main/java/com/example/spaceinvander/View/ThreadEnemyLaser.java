@@ -9,12 +9,14 @@ public class ThreadEnemyLaser implements Runnable{
     protected ThreadHandler handler;
     protected Meteor mEnemy;
     protected boolean pause;
+    protected boolean gameover;
 
     public ThreadEnemyLaser(ThreadHandler handler, Meteor enemy){
         this.myThread = new Thread(this);
         this.handler = handler;
         this.mEnemy = enemy;
         this.pause = false;
+        this.gameover = false;
     }
 
     public void start(){
@@ -23,11 +25,15 @@ public class ThreadEnemyLaser implements Runnable{
 
     @Override
     public void run() {
+        loop:
         while (true){
             Laser laser = new Laser(this.mEnemy.getmX(),this.mEnemy.getmY());
             this.handler.setEnemyLaser(laser);
+            if(this.handler.cekEnd()){
+                break loop;
+            }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

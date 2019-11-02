@@ -28,7 +28,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_angka_score"
             android:layout_toRightOf="@id/tv_score"
-            android:text=" 0"
+            android:text="0"
+            android:paddingLeft="10dp"
             android:textSize="@dimen/scoreSize"
             android:textColor="@color/white"/>
 
@@ -44,7 +45,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_favorite_black_24dp"
+            android:src="@drawable/ic_favorite_red_24dp"
             android:layout_below="@id/tv_score"
             android:paddingLeft="5dp"
             android:id="@+id/iv_life1"/>
@@ -52,7 +53,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_favorite_black_24dp"
+            android:src="@drawable/ic_favorite_red_24dp"
             android:layout_below="@id/tv_score"
             android:paddingLeft="5dp"
             android:id="@+id/iv_life2"
@@ -61,7 +62,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_favorite_black_24dp"
+            android:src="@drawable/ic_favorite_red_24dp"
             android:layout_below="@id/tv_score"
             android:paddingLeft="5dp"
             android:id="@+id/iv_life3"
@@ -85,6 +86,7 @@
             android:layout_marginTop="550dp"
             android:id="@+id/btn_right"/>
 
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,5 +97,14 @@
             android:layout_marginTop="600dp"
             android:id="@+id/btn_sensor"
             />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/gameover"
+            android:visibility="invisible"
+            android:id="@+id/iv_gameover"/>
+
+
     </RelativeLayout>
 </FrameLayout>
