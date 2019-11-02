@@ -86,12 +86,25 @@
             android:layout_marginTop="550dp"
             android:id="@+id/btn_right"/>
 
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SENSOR MODE"
+            android:textColor="@color/white"
+            android:background="@color/navy"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="600dp"
+            android:id="@+id/btn_sensor"
+            />
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/gameover"
             android:visibility="invisible"
             android:id="@+id/iv_gameover"/>
+
 
     </RelativeLayout>
 </FrameLayout>

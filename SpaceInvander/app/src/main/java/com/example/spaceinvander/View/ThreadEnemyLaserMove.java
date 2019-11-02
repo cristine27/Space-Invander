@@ -35,6 +35,7 @@ public class ThreadEnemyLaserMove implements Runnable{
 //                    System.out.println("x = " + Math.abs(this.lasers.get(i).getmX() - this.mPlayer.getmX()));
 //                    System.out.println("y = " + Math.abs(this.lasers.get(i).getmY() - this.mPlayer.getmY()));
                     if (Math.abs(this.lasers.get(i).getmX() - this.mPlayer.getmX()) < 150 && Math.abs(this.lasers.get(i).getmY() - this.mPlayer.getmY()) < 250) {
+
                         System.out.println("yes");
                         if(!this.mPlayer.getEnd()){
                             this.mPlayer.decreaseHeart();
@@ -45,6 +46,7 @@ public class ThreadEnemyLaserMove implements Runnable{
                             System.out.println("selesai");
                             this.threadHandler.setEnd();
                             break loop;
+
                         }
                     }
                     this.lasers.get(i).setmY(this.lasers.get(i).getmY() + 20);
