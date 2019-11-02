@@ -33,6 +33,18 @@ public class Player {
         }
     }
 
+    public void moveRightSensor(){
+        if(this.mX+10<=batas-this.mbitmap.getWidth()){
+            this.mX+=10;
+        }
+    }
+
+    public void moveLeftSensor(){
+        if(this.mX-10>=0){
+            this.mX-=10;
+        }
+    }
+
     public float getmX() {
         return mX;
     }

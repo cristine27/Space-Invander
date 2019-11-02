@@ -1,6 +1,8 @@
 package com.example.spaceinvander.View;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,6 +13,10 @@ import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -36,14 +42,16 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fragment_play extends Fragment{
+public class Fragment_play extends Fragment implements SensorEventListener {
     private static Fragment_play game;
+    private Context context;
     private MainPresenter presenter;
-    private double sensorValue;
+    private static double sensorValue;
 
     protected TextView score;
     protected ImageView life1,life2,life3,iv_canvas;
     protected ImageView btn_left,btn_right,pause;
+    protected Button btn_sensor;
 
     private Player player;
     private Meteor musuh;
@@ -56,7 +64,7 @@ public class Fragment_play extends Fragment{
     private static int METOEOR_DESTROYED = 0;
     private volatile boolean isGameOver;
     private volatile boolean isHighScore;
-    private boolean isPause = false;
+    private boolean isClicked = false;
 
     private Paint paint;
     protected Paint paintLaser;
@@ -76,21 +84,32 @@ public class Fragment_play extends Fragment{
     protected ArrayList<Laser> lasers = new ArrayList<>();
     protected ArrayList<Laser> enemyLasers = new ArrayList<>();
 
+//    Sensor
+protected Sensor accelerometer;
+    protected Sensor magnetometer;
+    protected float[] accelerometerR = new float[3];
+    protected float[] magnetometerR = new float[3];
+    private static final float VALUE_DRIFT = 0.05f;
+    protected SensorManager manager;
+    protected float temp = 4;
+
     protected  View view;
 
     public Fragment_play() {
         // Required empty public constructor
     }
 
-    public static Fragment_play createGame(MainPresenter presenter,MainActivity mainActivity){
+    public static Fragment_play createGame(MainPresenter presenter,MainActivity mainActivity,Context context){
         if(game==null){
             game = new Fragment_play();
             game.mainActivity = mainActivity;
             game.presenter = presenter;
+            game.context = context;
         }
         return game;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,8 +123,11 @@ public class Fragment_play extends Fragment{
         this.iv_canvas = view.findViewById(R.id.iv_layar);
         this.btn_left = view.findViewById(R.id.btn_left);
         this.btn_right = view.findViewById(R.id.btn_right);
-        this.sensorValue = presenter.getSensorValue();
-        
+        this.btn_sensor = view.findViewById(R.id.btn_sensor);
+
+        this.manager = (SensorManager) this.context.getSystemService(Context.SENSOR_SERVICE);
+        this.accelerometer = this.manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         this.paint = new Paint();
 
         this.initiateCanvas();
@@ -139,14 +161,38 @@ public class Fragment_play extends Fragment{
             @Override
             public void onClick(View v) {
                 if(!threadLaser.getPause()){
-//                    (Toast) ntr pake toast untuk nampilin lagi pause atau resume
+                    Toast toast = Toast.makeText(getContext(),"Pause",Toast.LENGTH_SHORT);
+                    toast.show();
                     threadLaser.setPause(true);
                     threadLaser.pause();
                 }
                 else{
-//                    (Toast)
+                    Toast toast = Toast.makeText(getContext(),"Resume",Toast.LENGTH_SHORT);
                     threadLaser.setPause(false);
                     threadLaser.resume();
+                }
+            }
+        });
+
+        this.btn_sensor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println(sensorValue);
+                if(!isClicked){
+                    btn_sensor.setText("BUTTON MODE");
+                    btn_left.setVisibility(View.INVISIBLE);
+                    btn_right.setVisibility(View.INVISIBLE);
+                    Toast toast = Toast.makeText(getContext(),"Sensor mode active",Toast.LENGTH_SHORT);
+                    toast.show();
+                    isClicked = true;
+                }
+                else{
+                    btn_sensor.setText("SENSOR MODE");
+                    btn_right.setVisibility(View.VISIBLE);
+                    btn_left.setVisibility(View.VISIBLE);
+                    Toast toast = Toast.makeText(getContext(),"Button mode active",Toast.LENGTH_SHORT);
+                    toast.show();
+                    isClicked = false;
                 }
             }
         });
@@ -260,6 +306,51 @@ public class Fragment_play extends Fragment{
         for (int i = 0; i < this.enemyLasers.size(); i++) {
             this.drawEnemyLaser((int)this.enemyLasers.get(i).getmX(), (int)this.enemyLasers.get(i).getmY());
         }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(isClicked){
+            int sensorType = this.accelerometer.getType();
+            switch (sensorType){
+                case Sensor.TYPE_ACCELEROMETER:
+                    temp = event.values[0];
+                    break;
+            }
+            moveSensor();
+        }
+        System.out.println(temp);
+    }
+
+    public void moveSensor(){
+        if(temp > 1){
+            System.out.printf("kiri");
+            this.player.moveLeftSensor();
+            resetCanvas();
+        }
+        else if(temp < 1){
+            System.out.println("kanan");
+            this.player.moveRightSensor();
+            resetCanvas();
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    public void onStart(){
+        super.onStart();
+        this.initiateCanvas();
+        if(this.accelerometer!=null){
+            this.manager.registerListener(this, this.accelerometer, SensorManager.SENSOR_DELAY_GAME);
+        }
+    }
+
+    public void onStop(){
+        super.onStop();
+        this.manager.unregisterListener(this);
     }
 }
 

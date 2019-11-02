@@ -26,8 +26,4 @@ public class MainPresenter {
     public void setHeight(int h){
         this.gi.setHeight(h);
     }
-
-    public double getSensorValue(){
-        return this.ai.getSensorValue();
-    }
 }

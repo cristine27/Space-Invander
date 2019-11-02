@@ -16,15 +16,13 @@ import android.widget.FrameLayout;
 import com.example.spaceinvander.Presenter.MainPresenter;
 import com.example.spaceinvander.R;
 
-public class MainActivity extends AppCompatActivity implements ActivityInterface,GameInterface, SensorEventListener {
+public class MainActivity extends AppCompatActivity implements ActivityInterface,GameInterface {
     protected Home_fragment home_fragment;
     protected Fragment_play fragment_play;
     protected FragmentManager fragmentManager;
     protected FrameLayout frame_container;
-    protected Sensor accelerometer;
-    protected SensorManager manager;
     protected MainPresenter presenter;
-    protected double sensorValue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +35,7 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
 
         this.frame_container = findViewById(R.id.frame_container);
         this.home_fragment = Home_fragment.createHome(presenter);
-        this.fragment_play = Fragment_play.createGame(presenter,this);
-
-        this.manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        this.accelerometer = this.manager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        manager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+        this.fragment_play = Fragment_play.createGame(presenter,this, this);
 
         this.fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
@@ -79,11 +73,6 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
     }
 
     @Override
-    public double getSensorValue() {
-        return this.sensorValue;
-    }
-
-    @Override
     public void setWidth(int w) {
         this.fragment_play.setBitmapW(w);
     }
@@ -93,27 +82,5 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
         this.fragment_play.setBitmapH(h);
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        sensorValue=event.values[0];
-    }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-    }
-
-    @Override
-    public  void onStart() {
-        super.onStart();
-        if(this.accelerometer!=null) {
-            this.manager.registerListener(this, this.accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        this.manager.unregisterListener(this);
-    }
 }

@@ -29,11 +29,11 @@ public class ThreadLaserMove implements Runnable{
         while(true){
             while(!pause){
                 for(int i = 0 ; i < lasers.size(); i++){
-                    System.out.println("collision ???");
-                    System.out.println("x = " + Math.abs(this.lasers.get(i).getmX() - this.enemy.getmX()));
-                    System.out.println("y = " + Math.abs(this.lasers.get(i).getmY() - this.enemy.getmY()));
+//                    System.out.println("collision ???");
+//                    System.out.println("x = " + Math.abs(this.lasers.get(i).getmX() - this.enemy.getmX()));
+//                    System.out.println("y = " + Math.abs(this.lasers.get(i).getmY() - this.enemy.getmY()));
                     if (Math.abs(this.lasers.get(i).getmX() - this.enemy.getmX()) < 75 && Math.abs(this.lasers.get(i).getmY() - this.enemy.getmY()) < 350) {
-                        System.out.println("yes");
+//                        System.out.println("yes");
                         this.enemy.decreaseHeart();
                         if(this.enemy.getHeart()==0){
                             System.out.println("darah enemy habis");

@@ -35,7 +35,7 @@ public class ThreadEnemyLaserMove implements Runnable{
                     if (Math.abs(this.lasers.get(i).getmX() - this.mPlayer.getmX()) < 150 && Math.abs(this.lasers.get(i).getmY() - this.mPlayer.getmY()) < 250) {
 //                        System.out.println("yes");
                         this.mPlayer.decreaseHeart();
-                        System.out.println(this.mPlayer.getHeart());
+//                        System.out.println(this.mPlayer.getHeart());
                         if(this.mPlayer.getHeart()==0){
                             System.out.printf("darah player habis");
                             break;
