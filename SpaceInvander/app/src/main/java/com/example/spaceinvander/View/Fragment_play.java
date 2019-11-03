@@ -77,7 +77,6 @@ public class Fragment_play extends Fragment implements SensorEventListener {
     protected ColorFilter merah;
     protected ColorFilter hitam;
 
-    private MainPresenter mp;
     protected MainActivity mainActivity;
     protected ThreadEnemy threadEnemy;
     protected ThreadLaser threadLaser;
@@ -90,12 +89,7 @@ public class Fragment_play extends Fragment implements SensorEventListener {
 
 //    Sensor
 protected Sensor accelerometer;
-    protected Sensor magnetometer;
-    protected float[] accelerometerR = new float[3];
-    protected float[] magnetometerR = new float[3];
-    private static final float VALUE_DRIFT = 0.05f;
     protected SensorManager manager;
-    protected float temp = 4;
 
     protected  View view;
 
@@ -171,12 +165,15 @@ protected Sensor accelerometer;
                     Toast toast = Toast.makeText(getContext(),"Pause",Toast.LENGTH_SHORT);
                     toast.show();
                     threadLaser.setPause(true);
-                    threadLaser.pause();
+                    threadEnemyLaserMove.setPaused(true);
+                    threadLaserMove.setPaused(true);
                 }
                 else{
                     Toast toast = Toast.makeText(getContext(),"Resume",Toast.LENGTH_SHORT);
+                    toast.show();
                     threadLaser.setPause(false);
-                    threadLaser.resume();
+                    threadEnemyLaserMove.setPaused(false);
+                    threadLaserMove.setPaused(false);
                 }
             }
         });
@@ -319,28 +316,22 @@ protected Sensor accelerometer;
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        float temp=0;
         if(isClicked){
             int sensorType = this.accelerometer.getType();
-            switch (sensorType){
+            switch (sensorType) {
                 case Sensor.TYPE_ACCELEROMETER:
                     temp = event.values[0];
                     break;
             }
-            moveSensor();
-        }
-        System.out.println(temp);
-    }
-
-    public void moveSensor(){
-        if(temp > 1){
-            System.out.printf("kiri");
-            this.player.moveLeftSensor();
-            resetCanvas();
-        }
-        else if(temp < 1){
-            System.out.println("kanan");
-            this.player.moveRightSensor();
-            resetCanvas();
+            if(temp > 1){
+                this.player.moveLeftSensor();
+                resetCanvas();
+            }
+            else if(temp < 1){
+                this.player.moveRightSensor();
+                resetCanvas();
+            }
         }
     }
 
@@ -357,9 +348,10 @@ protected Sensor accelerometer;
         }
     }
 
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         this.manager.unregisterListener(this);
+    }
 
     public void increaseHit(){
         this.score.setText(this.musuh.getHit());
@@ -367,13 +359,9 @@ protected Sensor accelerometer;
     }
 
     public void decreaseLife(){
-        System.out.println("masuk decrease life ?");
         if(this.player.getLife1()){
-            System.out.println("masuk life 1");
             if (this.player.getLife2()){
-                System.out.println("masuk life 2");
                 if (this.player.getLife3()){
-
                 }
                 else{
                     this.life3.setImageResource(R.drawable.ic_favorite_black_24dp);
@@ -398,7 +386,6 @@ protected Sensor accelerometer;
 
     public boolean getGameover(){
         return this.isGameover;
-
     }
 }
 
