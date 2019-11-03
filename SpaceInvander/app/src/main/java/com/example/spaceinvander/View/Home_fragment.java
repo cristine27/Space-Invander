@@ -2,6 +2,8 @@ package com.example.spaceinvander.View;
 
 
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -22,9 +24,12 @@ public class Home_fragment extends Fragment {
     protected static Home_fragment home;
     protected Button btn_play;
     protected Button btn_exit;
+    protected Button btn_highScore;
     protected int width=0;
     protected int height=0;
     protected MainPresenter presenter;
+    protected ConnectivityManager manager;
+    protected NetworkInfo networkInfo;
 
     public Home_fragment() {
         // Required empty public constructor
@@ -48,6 +53,9 @@ public class Home_fragment extends Fragment {
         System.out.println("ini h w"+width+" "+height);
         this.btn_play = view.findViewById(R.id.btn_play);
         this.btn_exit = view.findViewById(R.id.btn_exit);
+        this.btn_highScore = view.findViewById(R.id.btn_highScore);
+        this.manager = (ConnectivityManager)getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
+        
 
         this.btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +66,9 @@ public class Home_fragment extends Fragment {
                 presenter.changePage(2);
             }
         });
+
+        this.btn_highScore.setOnClickListener();
+
         this.btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

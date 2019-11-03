@@ -19,7 +19,11 @@ public class ThreadEnemy implements Runnable {
 
     @Override
     public void run() {
-        while(this.meteor.getmY()+30<=this.meteor.getBatasY()/2+this.meteor.getMbitmap().getHeight() || this.meteor.getmX()-30<=this.meteor.getBatasX()/2+this.meteor.getMbitmap().getWidth()){
+        float atas = this.meteor.getBatasX()-this.meteor.getMbitmap().getWidth();
+        float bawah = this.meteor.getBatasY()-this.meteor.getMbitmap().getHeight()/2;
+        float posX = this.meteor.getmX();
+        float posY = this.meteor.getmY();
+        while(posX<atas && posY<bawah && posY!=0 && posX!=0){
             int kecepatan = this.meteor.randomAngka();
             this.meteor.setKecepatan(kecepatan);
             Random rand = new Random();
