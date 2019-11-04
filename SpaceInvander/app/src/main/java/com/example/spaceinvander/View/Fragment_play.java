@@ -48,7 +48,7 @@ public class Fragment_play extends Fragment implements SensorEventListener {
     private MainPresenter presenter;
     private static double sensorValue;
 
-    protected TextView score;
+    protected TextView score, highScore;
     protected ImageView life1,life2,life3,iv_canvas;
     protected ImageView btn_left,btn_right,pause;
 
@@ -114,6 +114,7 @@ protected Sensor accelerometer;
         // Inflate the layout for this fragment
         this.view = inflater.inflate(R.layout.fragment_play, container, false);
         this.score = view.findViewById(R.id.tv_angka_score);
+        this.highScore = view.findViewById(R.id.tv_highscore);
         this.life1 = view.findViewById(R.id.iv_life1);
         this.life2 = view.findViewById(R.id.iv_life2);
         this.life3 = view.findViewById(R.id.iv_life3);
@@ -386,6 +387,10 @@ protected Sensor accelerometer;
 
     public boolean getGameover(){
         return this.isGameover;
+    }
+
+    public TextView getHighScore(){
+        return this.highScore;
     }
 }
 

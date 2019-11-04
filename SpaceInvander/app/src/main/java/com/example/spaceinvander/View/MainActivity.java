@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
     protected FragmentManager fragmentManager;
     protected FrameLayout frame_container;
     protected MainPresenter presenter;
+    protected ScoreTask scoreTask;
 
 
     @Override
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
         this.fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
         ft.add(R.id.frame_container, this.home_fragment).addToBackStack(null).commit();
+        this.scoreTask = new ScoreTask(this, this);
+        this.scoreTask.executeGet(2017730060);
     }
 
 
@@ -70,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements ActivityInterface
             }
         }
         ft.commit();
+    }
+
+    @Override
+    public void sendResult(String result) {
+        this.fragment_play.getHighScore().setText(result);
     }
 
     @Override

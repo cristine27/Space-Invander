@@ -67,7 +67,12 @@ public class Home_fragment extends Fragment {
             }
         });
 
-        this.btn_highScore.setOnClickListener();
+        this.btn_highScore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         this.btn_exit.setOnClickListener(new View.OnClickListener() {
             @Override
